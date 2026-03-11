@@ -74,6 +74,28 @@ If you are running the django server from within the vagrant box, provide the lo
 
 The application can now be accessed via localhost:8000 on your browser
 
+⚠️ **Note:**
+The MapQuest API used in locationDataRequest() may fail in the local development environment. To avoid errors while running the application locally, temporarily bypass the locationDataRequest() call.
+
+Steps
+
+1. Open the file:
+
+>> censusreporter/apps/census/static/js/full-text-results.js
+
+2. Inside the $("#geography-full-text").autocomplete({}) configuration, locate the following line inside the .then(function(data) { ... }) block:
+
+>>return locationDataRequest(data, request.term);
+
+3. Replace it with:
+
+>> return data;
+
+This change skips the MapQuest lookup and returns the base search results directly.
+
+⚠️ Important:
+This modification is intended only for local development. Do not deploy this change to production, since the MapQuest lookup is required for full functionality in production.
+
 Getting data from our API (the basics)
 ======================================
 
